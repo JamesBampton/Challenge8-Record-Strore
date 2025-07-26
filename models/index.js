@@ -1,29 +1,17 @@
 // import all models
-const Post = require("./post");
-const Category = require("./category");
+const Record = require("./record");
 const User = require("./user");
 
-Post.belongsTo(Category, {
-  foreignKey: "categoryId",
-  as: "category",
-});
-
-Category.hasMany(Post, {
-  foreignKey: "categoryId",
-  as: "posts",
-});
-
-User.hasMany(Post, {
+User.hasMany(Record, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 });
 
-Post.belongsTo(User, {
+Record.belongsTo(User, {
   foreignKey: "userId",
 });
 
 module.exports = {
-  Post,
-  Category,
+  Record,
   User,
 };

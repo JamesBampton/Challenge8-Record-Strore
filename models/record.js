@@ -2,26 +2,29 @@ const { Model, DataTypes, Sequelize } = require("sequelize");
 
 const sequelize = require("../config/connection");
 
-class Post extends Model {}
+class Record extends Model {}
 
-Post.init(
+Record.init(
   {
-    title: {
+    album: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    content: {
+    artist: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    postedBy: {
+    cond: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    createdOn: {
+    genre: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+     year: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.NOW,
     },
   },
   {
@@ -29,9 +32,9 @@ Post.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "post",
+    modelName: "record",
   }
 );
 
 // Export Post model
-module.exports = Post;
+module.exports = Record;

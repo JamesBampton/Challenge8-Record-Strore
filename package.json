@@ -15,7 +15,8 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.6.1",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
