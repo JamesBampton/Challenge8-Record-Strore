@@ -3,27 +3,25 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { DataTypes } = require("sequelize"); // Import datatype object from sequelize , for defining types for teh DB
 const dotenv = require("dotenv"); // Loading env variables from .env file
-console.log(process.env.DB_DATABASE);
 const sequelize = require("./config/connection");
 const path = require("path");
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3011;
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
+const User = require("./models/user");
 
-// Define User Model
-const User = sequelize.define("User", {
+ // Define User Model - Being done via the seed, not needed here ?
+/* const User = sequelize.define("User", {
   username: { type: DataTypes.STRING, allowNull: false, unique: true },
   password: { type: DataTypes.STRING, allowNull: false },
-});
+}); */
 
 app.use(express.json());
 
 // Middleware for authenticating JWT tokens
 const authenticateJWT = (req, res, next) => {
   const token = req.header("Authorization");
-  console.log("Fuck me whats this shite ", authenticateJWT);
   if (!token) return res.status(403).json({ message: "Access Denied" });
 
   jwt.verify(token.split(" ")[1], SECRET_KEY, (err, user) => {
@@ -36,9 +34,9 @@ const authenticateJWT = (req, res, next) => {
 // Register a new user
 app.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, password: hashedPassword });
+    const user = await User.create({ username, email, password: hashedPassword });
     res.json({ message: "User created successfully", user });
   } catch (error) {
     res.status(400).json({ message: "Error creating user", error });
