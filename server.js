@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3011;
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 const User = require("./models/user");
+const Record = require("./models/record");
 
  // Define User Model - Being done via the seed, not needed here ?
 /* const User = sequelize.define("User", {
@@ -44,7 +45,27 @@ app.post("/register", async (req, res) => {
 });
 
 // Login and get a JWT token
-app.post("/login", async (req, res) => {
+app.post("/users/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging in", error });
+  }
+});
+
+/* app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ where: { username } });
@@ -62,7 +83,7 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }
-});
+}); */
 
 // protected route
 app.get("/protected", (req, res) => {

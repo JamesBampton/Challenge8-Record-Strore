@@ -3,12 +3,12 @@ const Record = require("./record");
 const User = require("./user");
 
 User.hasMany(Record, {
-  foreignKey: "userId",
+  foreignKey: "user_id",
   onDelete: "CASCADE",
 });
 
 Record.belongsTo(User, {
-  foreignKey: "userId",
+  foreignKey: "user_id",
 });
 
 module.exports = {

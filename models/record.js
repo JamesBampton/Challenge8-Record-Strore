@@ -6,6 +6,19 @@ class Record extends Model {}
 
 Record.init(
   {
+
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+      model: "user",
+      key: "id",
+    },
+  },
     album: {
       type: DataTypes.TEXT,
       allowNull: false,
