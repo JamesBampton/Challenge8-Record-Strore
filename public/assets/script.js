@@ -28,7 +28,9 @@ function login() {
   fetch("http://localhost:3011/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ 
+      email: 'terry@hotmail.com',
+      password: 'terry' }),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -53,6 +55,39 @@ function login() {
       console.log(error);
     });
 }
+
+
+/* function login() {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  fetch("http://localhost:3011/users/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      // Save the token in the local storage
+      if (data.token) {
+        localStorage.setItem("authToken", data.token);
+        token = data.token;
+
+        alert("User Logged In successfully");
+
+        // Fetch the posts list
+        fetchPosts();
+
+        // Hide the auth container and show the app container as we're now logged in
+        document.getElementById("auth-container").classList.add("hidden");
+        document.getElementById("app-container").classList.remove("hidden");
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+} */
 
 function logout() {
   fetch("http://localhost:3011/users/logout", {
